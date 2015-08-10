@@ -1,0 +1,18 @@
+{
+  "name": "section-1",
+  "version": "1.0.0",
+  "description": "study nodejs koa react webpack, section 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "study",
+    "nodejs",
+    "koa",
+    "react",
+    "webpack"
+  ],
+  "author": "CC",
+  "license": "ISC"
+}
