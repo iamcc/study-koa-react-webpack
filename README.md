@@ -13,6 +13,7 @@
 - [autoprefixer-loader](https://github.com/passy/autoprefixer-loader) - `webpack` 组件，为样式自动添加 `-webkit` 等前缀
 - `url-loader` `file-loader` - `webpack` 组件，用于处理样式样式所引用的文件依赖
 - `babel-loader` - `webpack` 组件，用于处理 `es6` 新语法
+- [nodemon](https://github.com/remy/nodemon) - `nodejs` 开发工具，监测文件变动重启服务
 
 ### 后端
 - [iojs](https://iojs.org/en/index.html) - `nodejs` 分支，更多的语法支持
