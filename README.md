@@ -25,6 +25,7 @@
 
 ### 前端
 - [react](http://facebook.github.io/react/) - `facebook` 开源前端模板工具
+- [react-router](https://github.com/rackt/react-router) - `react` 路由组件
 - [antd](http://ant.design/) - `阿里`开源的 `react` 组件
 - `jquery` - `antd` 依赖 `jquery`
 - [reflux](https://github.com/reflux/refluxjs) - `flux` 框架
