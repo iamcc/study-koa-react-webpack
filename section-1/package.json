@@ -4,7 +4,12 @@
   "description": "study nodejs koa react webpack, section 1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=dev nodemon index.js",
+    "dev": "NODE_ENV=dev webpack-dev-server",
+    "test-server": "NODE_ENV=test mocha -r should -R spec --recursive test/server",
+    "cov-server": "NODE_ENV=test istanbul cover _mocha -- -r should -R spec --recursive test/server",
+    "build": "NODE_ENV=prod webpack -p",
+    "lint": "eslint client server test"
   },
   "keywords": [
     "study",
@@ -14,5 +19,42 @@
     "webpack"
   ],
   "author": "CC",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "antd": "^0.7.3",
+    "babel": "^5.8.21",
+    "classnames": "^2.1.3",
+    "jquery": "^2.1.4",
+    "koa": "^0.21.0",
+    "koa-body": "^1.2.1",
+    "koa-jwt": "^1.1.1",
+    "koa-router": "^5.1.2",
+    "koa-static": "^1.4.9",
+    "mongoose": "^4.1.2",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "reflux": "^0.2.12",
+    "superagent": "^1.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.22",
+    "babel-eslint": "^4.0.5",
+    "babel-loader": "^5.3.2",
+    "css-loader": "^0.15.6",
+    "eslint": "^1.1.0",
+    "eslint-plugin-babel": "^2.0.0",
+    "eslint-plugin-react": "^3.2.2",
+    "file-loader": "^0.8.4",
+    "istanbul": "^0.3.17",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "mocha": "^2.2.5",
+    "nodemon": "^1.4.0",
+    "react-hot-loader": "^1.2.8",
+    "should": "^7.0.3",
+    "style-loader": "^0.12.3",
+    "supertest": "^1.0.1",
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
+  }
 }
