@@ -22,6 +22,7 @@
 - [koa-body](https://github.com/dlau/koa-body) - `koa` 组件，处理 `http` `post` 传过来的数据
 - [koa-router](https://github.com/alexmingoia/koa-router) - `koa` 组件，处理路由
 - [koa-jwt](https://github.com/stiang/koa-jwt) - `koa` 组件，处理身份验证 [jwt](http://jwt.io/)
+- [mongodb](http://www.mongodb.org) - nosql 数据库
 - [mongoose](http://mongoosejs.com/) - `mongodb` `ODM` 框架
 
 ### 前端
