@@ -69,6 +69,16 @@ npm start
 npm run dev
 ```
 
+服务端代码测试
+```
+npm run test-server
+```
+
+服务端代码测试覆盖率
+```
+npm run cov-server
+```
+
 ```
 浏览器打开http://localhost:8001 既可查看效果
 ```
