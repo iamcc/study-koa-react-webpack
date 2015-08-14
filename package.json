@@ -4,7 +4,7 @@
   "description": "study koa, react, webpack",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha -r should -R spec --recursive section-2/test/server"
+    "test": "cd section-2 && npm test"
   },
   "keywords": [
     "study",
