@@ -9,7 +9,7 @@
     "test": "npm run test-server",
     "test-cov": "npm run cov-server",
     "test-server": "NODE_ENV=test mocha -r should -R spec --recursive test/server",
-    "cov-server": "NODE_ENV=test istanbul cover _mocha -- -r should -R spec --recursive test/server",
+    "cov-server": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -r should -R spec --recursive test/server && cat ./coverage/lcov.info | coveralls",
     "build": "NODE_ENV=prod webpack -p",
     "lint": "eslint client server test"
   },
@@ -44,6 +44,7 @@
     "babel-core": "^5.8.22",
     "babel-eslint": "^4.0.5",
     "babel-loader": "^5.3.2",
+    "coveralls": "^2.11.4",
     "css-loader": "^0.15.6",
     "eslint": "^1.1.0",
     "eslint-plugin-babel": "^2.0.0",

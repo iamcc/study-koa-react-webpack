@@ -4,3 +4,4 @@ node_js:
  - "iojs"
 services:
  - mongodb
+repo_token: SEvAE8ePxuVzAQHATB3ypll4IuMpkAZb9
