@@ -1,5 +1,7 @@
 # Section-2
 
+[![Build Status](https://travis-ci.org/iamcc/study-koa-react-webpack.svg)](https://travis-ci.org/iamcc/study-koa-react-webpack)
+
 ## 实现功能
 - 环境配置文件 `server/config.js`，根据环境(`dev` `prod` `test`)自动返回相应的配置
 - 初始化管理员账户
