@@ -1,0 +1,59 @@
+/*
+* @Author: CC
+* @Date:   2015-08-10 18:15:33
+* @Last Modified by:   CC
+* @Last Modified time: 2015-08-13 10:24:18
+*/
+
+@sidebar-bg: #333;
+@menu-active: #d3d3d3;
+
+.spacer {
+  flex: 1;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 220px;
+
+  background: @sidebar-bg;
+  #account {
+    display: flex;
+
+    padding: 50px 10px;
+
+    color: #ddd;
+    border-bottom: solid 1px rgba(255, 255, 255, .1);
+
+    align-items: center;
+  }
+  ul#menu {
+    padding: 10px;
+    li {
+      line-height: 50px;
+      a {
+        display: block;
+
+        transition: all .2s ease;
+        text-indent: 10px;
+        &.active {
+          border-left: solid 3px @menu-active;
+        }
+        &:hover {
+          text-indent: 20px;
+
+          background: rgba(255, 255, 255, .1);
+        }
+      }
+    }
+  }
+}
+
+#content {
+  margin-left: 220px;
+  padding: 22px;
+}
