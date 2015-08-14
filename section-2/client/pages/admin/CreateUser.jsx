@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-14 13:16:41
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 16:04:22
+* @Last Modified time: 2015-08-14 16:29:32
 */
 
 import React from 'react/addons'
@@ -27,26 +27,30 @@ class CreateUser extends React.Component {
   }
 
   render() {
-    return <form className="ant-form-horizontal" style={{width: '500px'}} onSubmit={this.handleSubmit.bind(this)}>
-      <div className={"ant-form-item" + (this.state.errors.username ? ' has-error' : '')}>
+    const handleSubmit = this.handleSubmit.bind(this)
+    const changeRole = this.changeRole.bind(this)
+    const errors = this.state.errors
+
+    return <form className="ant-form-horizontal" style={{width: '500px'}} onSubmit={handleSubmit}>
+      <div className={"ant-form-item" + (errors.username ? ' has-error' : '')}>
         <label className="col-6" required>User Name</label>
         <div className="col-18">
           <input type="text" className="ant-input" valueLink={this.linkState('username')} ref="username"/>
-          <p className="ant-form-explain">{this.state.errors.username}</p>
+          <p className="ant-form-explain">{errors.username}</p>
         </div>
       </div>
 
-      <div className={"ant-form-item" + (this.state.errors.password ? ' has-error' : '')}>
+      <div className={"ant-form-item" + (errors.password ? ' has-error' : '')}>
         <label className="col-6" required>Password</label>
         <div className="col-18">
           <input type="password" className="ant-input" valueLink={this.linkState('password')} ref="password"/>
-          <p className="ant-form-explain">{this.state.errors.password}</p>
+          <p className="ant-form-explain">{errors.password}</p>
         </div>
       </div>
 
       <div className="ant-form-item">
         <label className="col-6" required>Role</label>
-        <Select className="col-18" value={this.state.role} onChange={this.changeRole.bind(this)}>
+        <Select className="col-18" value={this.state.role} onChange={changeRole}>
           <Select.Option value="sales">Sales</Select.Option>
           <Select.Option value="admin">Admin</Select.Option>
         </Select>
@@ -70,33 +74,35 @@ class CreateUser extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    if (this.state.loading) return
+    const state = this.state
 
-    this.state.errors = {}
+    if (state.loading) return
 
-    !this.state.username && (this.state.errors.username = 'username is empty')
-    this.state.password.length < 6 && (this.state.errors.password = 'password must be 6 characters at least')
-    !this.state.password && (this.state.errors.password = 'password is empty')
+    const errors = this.state.errors = {}
 
-    this.state.errors.password && this.refs.password.getDOMNode().focus()
-    this.state.errors.username && this.refs.username.getDOMNode().focus()
+    !state.username && (errors.username = 'username is empty')
+    state.password.length < 6 && (errors.password = 'password must be 6 characters at least')
+    !state.password && (errors.password = 'password is empty')
 
-    if (Object.keys(this.state.errors).length) return this.forceUpdate()
+    errors.password && this.refs.password.getDOMNode().focus()
+    errors.username && this.refs.username.getDOMNode().focus()
 
-    this.state.loading = true
+    if (Object.keys(errors).length) return this.forceUpdate()
+
+    state.loading = true
     this.forceUpdate()
 
     UserService.create({
-      username: this.state.username,
-      password: this.state.password,
-      role: this.state.role
+      username: state.username,
+      password: state.password,
+      role: state.role
     }, (e, res) => {
       this.setState({loading: false})
 
       if (e) {
         if (e.status === 400) {
           for (let k in res.body) {
-            this.state.errors[k] = res.body[k]
+            state.errors[k] = res.body[k]
             this.refs[k].getDOMNode().focus()
           }
           this.forceUpdate()

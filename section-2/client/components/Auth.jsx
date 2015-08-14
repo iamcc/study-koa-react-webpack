@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 09:48:42
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-13 09:59:02
+* @Last Modified time: 2015-08-14 16:25:03
 */
 
 import React from 'react'
@@ -34,7 +34,9 @@ export default Component => {
     }
 
     render() {
-      return <Component {...this.props} user={this.state.auth.user}/>
+      const user = this.state.auth.user
+      const token = this.state.auth.token
+      return <Component {...this.props} user={user} token={token}/>
     }
   }
 }

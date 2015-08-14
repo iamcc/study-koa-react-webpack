@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-12 19:31:34
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-13 16:38:11
+* @Last Modified time: 2015-08-14 16:30:01
 */
 
 import React from 'react'
@@ -38,10 +38,12 @@ export default Auth(class Sidebar extends React.Component {
         </Menu.Item>
       </Menu>
     )
+    const user = this.props.user
+
     return (
       <aside id="sidebar">
         <div id="account">
-          <span id="username">{this.props.user.username}</span>
+          <span id="username">{user.username}</span>
           <div className="spacer"></div>
           <Dropdown overlay={menu}>
             <i className="anticon anticon-down"></i>

@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 10:42:16
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-13 12:26:42
+* @Last Modified time: 2015-08-14 16:36:36
 */
 
 import React from 'react/addons'
@@ -23,10 +23,7 @@ class ModifyPassword extends React.Component {
       oldPwd: '',
       newPwd: '',
       loading: false,
-      error: {
-        oldPwd: '',
-        newPwd: '',
-      }
+      errors: {}
     }
   }
 
@@ -35,58 +32,60 @@ class ModifyPassword extends React.Component {
 
     if (this.state.loading) return
 
-    this.state.error.oldPwd = {}
-    this.state.error.newPwd = {}
+    const state = this.state
+    const errors = this.state.errors = {}
 
-    this.state.oldPwd.length < 6 && (this.state.error.oldPwd.error = '密码至少6位数')
-    this.state.newPwd.length < 6 && (this.state.error.newPwd.error = '密码至少6位数')
-    this.state.oldPwd === this.state.newPwd && (this.state.error.newPwd.error = '新密码不能和旧密码相同')
+    state.oldPwd.length < 6 && (errors.oldPwd = '密码至少6位数')
+    state.newPwd.length < 6 && (errors.newPwd = '密码至少6位数')
+    state.oldPwd === state.newPwd && (errors.newPwd = '新密码不能和旧密码相同')
 
-    this.state.error.newPwd.error && this.refs.newPwd.getDOMNode().focus()
-    this.state.error.oldPwd.error && this.refs.oldPwd.getDOMNode().focus()
+    errors.newPwd && this.refs.newPwd.getDOMNode().focus()
+    errors.oldPwd && this.refs.oldPwd.getDOMNode().focus()
 
-    if (this.state.error.oldPwd.error
-      || this.state.error.newPwd.error) return this.setState(this.state)
+    if (errors.oldPwd || errors.newPwd) return this.setState(state)
 
-    this.state.loading = true
-    this.setState(this.state)
+    state.loading = true
+    this.setState(state)
 
-    UserService.modifyPassword(this.state.oldPwd, this.state.newPwd, (e, res) => {
+    UserService.modifyPassword(state.oldPwd, state.newPwd, (e, res) => {
       if (e) {
         if (e.status === 400) {
           for (let k in res.body) {
-            this.state.error[k].error = res.body[k]
+            errors[k] = res.body[k]
             this.refs[k].getDOMNode().focus()
           }
         } else {
           message.error(res.text)
         }
       } else {
-        this.state.oldPwd = ''
-        this.state.newPwd = ''
+        state.oldPwd = ''
+        state.newPwd = ''
         message.success('success')
       }
 
-      this.state.loading = false
-      this.setState(this.state)
+      state.loading = false
+      this.setState(state)
     })
   }
 
   render() {
+    const handleSubmit = this.handleSubmit.bind(this)
+    const errors = this.state.errors
+
     return (
-      <form className="ant-form-horizontal" style={style.form} onSubmit={this.handleSubmit.bind(this)}>
-        <div className={"ant-form-item" + (this.state.error.oldPwd.error ? ' has-error': '')}>
+      <form className="ant-form-horizontal" style={style.form} onSubmit={handleSubmit}>
+        <div className={"ant-form-item" + (errors.oldPwd ? ' has-error': '')}>
           <label className="col-6" required>Old Password</label>
           <div className="col-18">
             <input type="password" className="ant-input" valueLink={this.linkState('oldPwd')} ref="oldPwd"/>
-            <p className="ant-form-explain">{this.state.error.oldPwd.error}</p>
+            <p className="ant-form-explain">{errors.oldPwd}</p>
           </div>
         </div>
-        <div className={"ant-form-item" + (this.state.error.newPwd.error ? ' has-error': '')}>
+        <div className={"ant-form-item" + (errors.newPwd ? ' has-error': '')}>
           <label className="col-6" required>New Password</label>
           <div className="col-18">
             <input type="password" className="ant-input" valueLink={this.linkState('newPwd')} ref="newPwd"/>
-            <p className="ant-form-explain">{this.state.error.newPwd.error}</p>
+            <p className="ant-form-explain">{errors.newPwd}</p>
           </div>
         </div>
         <div className="ant-form-item">
