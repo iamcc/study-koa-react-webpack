@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-12 19:31:34
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 16:30:01
+* @Last Modified time: 2015-08-14 18:37:39
 */
 
 import React from 'react'
@@ -29,9 +29,11 @@ export default Auth(class Sidebar extends React.Component {
         <Menu.Item key="modify-password">
           <a href="javascript:;">Modify Password</a>
         </Menu.Item>
-        <Menu.Item key="manage">
-          <a href="javascript:;">Manage</a>
-        </Menu.Item>
+        {this.props.user.role === 'admin'
+          ? <Menu.Item key="manage">
+              <a href="javascript:;">Manage</a>
+            </Menu.Item>
+          : <div></div>}
         <Menu.Divider/>
         <Menu.Item key="logout">
           <a href="javascript:;">Logout</a>

@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 10:42:16
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 16:36:36
+* @Last Modified time: 2015-08-14 18:43:26
 */
 
 import React from 'react/addons'
@@ -35,9 +35,9 @@ class ModifyPassword extends React.Component {
     const state = this.state
     const errors = this.state.errors = {}
 
-    state.oldPwd.length < 6 && (errors.oldPwd = '密码至少6位数')
-    state.newPwd.length < 6 && (errors.newPwd = '密码至少6位数')
-    state.oldPwd === state.newPwd && (errors.newPwd = '新密码不能和旧密码相同')
+    state.oldPwd.length < 6 && (errors.oldPwd = 'at least 6 characters')
+    state.newPwd.length < 6 && (errors.newPwd = 'at least 6 characters')
+    state.oldPwd === state.newPwd && (errors.newPwd = 'must be a new password')
 
     errors.newPwd && this.refs.newPwd.getDOMNode().focus()
     errors.oldPwd && this.refs.oldPwd.getDOMNode().focus()

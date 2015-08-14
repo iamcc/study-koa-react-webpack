@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-11 18:05:12
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 16:40:03
+* @Last Modified time: 2015-08-14 18:44:17
 */
 
 import React from 'react/addons'
@@ -67,9 +67,9 @@ export default class Login extends React.Component {
     const state = this.state
     const errors = state.errors = {}
 
-    !state.username && (errors.username = '用户名不能空')
-    !state.password && (errors.password = '密码不能空')
-    state.password.length < 6 && (errors.password = '密码不能少于6位数')
+    !state.username && (errors.username = 'User Name is empty')
+    !state.password && (errors.password = 'Password is empty')
+    state.password.length < 6 && (errors.password = 'at least 6 characters')
 
     !!errors.password && this.form.password.focus()
     !!errors.username && this.form.username.focus()

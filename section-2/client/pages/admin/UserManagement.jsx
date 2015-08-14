@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 18:23:03
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 13:29:52
+* @Last Modified time: 2015-08-14 18:41:35
 */
 
 import React from 'react/addons'
@@ -95,8 +95,14 @@ class UserManagement extends React.Component {
   }
 
   renderStatus(status, row) {
-    if (status === 1) return <span style={{color: 'green'}}>正常</span>
-    return <span style={{color: 'red'}}>锁定</span>
+    if (status === 1) return <span style={{color: 'green'}}>
+      <i className="anticon anticon-unlock"></i>
+      <span> Normal</span>
+    </span>
+    return <span style={{color: 'red'}}>
+      <i className="anticon anticon-lock"></i>
+      <span> Locked</span>
+    </span>
   }
 
   renderActionTitle() {

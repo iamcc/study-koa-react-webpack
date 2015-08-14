@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 11:56:28
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 16:02:59
+* @Last Modified time: 2015-08-14 18:46:13
 */
 
 const UserModel = require('../models/user')
@@ -47,12 +47,12 @@ function *handleDelete(next) {
 function *modifyPassword(next) {
   const body = this.request.body
 
-  this.assert(body.oldPwd && body.oldPwd.length > 5, {oldPwd: '密码至少6位数'}, 400)
-  this.assert(body.newPwd && body.newPwd.length > 5, {oldPwd: '密码至少6位数'}, 400)
+  this.assert(body.oldPwd && body.oldPwd.length > 5, {oldPwd: 'at least 6 characters'}, 400)
+  this.assert(body.newPwd && body.newPwd.length > 5, {oldPwd: 'at least 6 characters'}, 400)
 
   const user = yield UserModel.findByUsername(this.state.user.username)
-  this.assert(user, '用户不存在', 404)
-  this.assert(user.comparePassword(body.oldPwd), {oldPwd: '旧密码错误'}, 400)
+  this.assert(user, 'user not exist', 404)
+  this.assert(user.comparePassword(body.oldPwd), {oldPwd: 'invalid password'}, 400)
 
   user.password = body.newPwd
   yield user.save()

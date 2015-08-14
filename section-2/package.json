@@ -9,7 +9,7 @@
     "test": "npm run test-server",
     "test-cov": "npm run cov-server",
     "test-server": "NODE_ENV=test mocha -r should -R spec --recursive test/server",
-    "cov-server": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -r should -R spec --recursive test/server && cat ./coverage/lcov.info | coveralls",
+    "cov-server": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -r should -R spec --recursive test/server",
     "build": "NODE_ENV=prod webpack -p",
     "lint": "eslint client server test"
   },
