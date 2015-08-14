@@ -1,6 +1,7 @@
 language: node_js
 node_js:
- - "0.12"
- - "iojs"
+ - '0.12'
+ - 'iojs'
 services:
  - mongodb
+ script: cd section-2 && npm i && npm test
