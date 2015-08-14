@@ -4,7 +4,7 @@
   "description": "study koa, react, webpack",
   "main": "index.js",
   "scripts": {
-    "test": "cd section-2 && npm i && npm test-cov"
+    "test": "cd section-2 && npm i && npm test"
   },
   "keywords": [
     "study",
