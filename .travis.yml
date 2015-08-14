@@ -4,4 +4,3 @@ node_js:
  - 'iojs'
 services:
  - mongodb
- script: cd section-2 && npm i && npm test
