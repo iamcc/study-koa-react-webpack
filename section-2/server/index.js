@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-10 17:42:08
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-12 13:59:06
+* @Last Modified time: 2015-08-17 15:42:11
 */
 'use strict'
 
@@ -38,6 +38,12 @@ function *handleError(next) {
   try {
     yield next
   } catch(e) {
+    if (e.message === 'ValidationError') {
+      this.status = 400
+      this.body = e.errors
+      return
+    }
+
     this.status = e.status || /* istanbul ignore next */ 500
     switch (e.status) {
       case 400:
@@ -46,7 +52,7 @@ function *handleError(next) {
       /* istanbul ignore next */
       default:
         this.body = e.message
+        this.app.emit('error', e, this)
     }
-    this.app.emit('error', e, this)
   }
 }

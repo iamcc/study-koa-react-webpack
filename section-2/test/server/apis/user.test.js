@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-14 10:45:32
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 15:55:32
+* @Last Modified time: 2015-08-17 16:36:45
 */
 
 const jwt = require('koa-jwt')
@@ -15,22 +15,21 @@ var adminUser, adminToken, salesUser, salesToken, notexistToken
 
 describe('test user api', function () {
   before(function(done) {
-    done = pedding(3, done)
+    done = pedding(2, done)
     this.req = require('supertest')(require('../../../server').callback())
     notexistToken = 'Bearer ' + jwt.sign({username: 'notexist'}, config.jwtSecret)
     UserModel.create({username: 'sales', password: '123456'}, function(e, user) {
-      done()
+      UserModel.findByUsername('admin').then(function(user) {
+        adminUser = user
+        adminToken = 'Bearer ' + jwt.sign(user, config.jwtSecret)
+        done()
+      }, done)
+      UserModel.findByUsername('sales').then(function(user) {
+        salesUser = user
+        salesToken = 'Bearer ' + jwt.sign(user, config.jwtSecret)
+        done()
+      }, done)
     })
-    UserModel.findByUsername('admin').then(function(user) {
-      adminUser = user
-      adminToken = 'Bearer ' + jwt.sign(user, config.jwtSecret)
-      done()
-    }, done)
-    UserModel.findByUsername('sales').then(function(user) {
-      salesUser = user
-      salesToken = 'Bearer ' + jwt.sign(user, config.jwtSecret)
-      done()
-    }, done)
   })
 
   after(function(done) {
@@ -110,64 +109,64 @@ describe('test user api', function () {
   })
 
   describe('PUT /api/user?act=updatePassword', function () {
-    it('will get 400 密码至少6位数 without oldPwd', function (done) {
+    it('will get 400 `at least 6 characters` without oldPwd', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', salesToken)
         .query({act: 'updatePassword'})
         .send({})
         .expect(400)
-        .expect(/密码至少6位数/, done)
+        .expect(/at least 6 characters/, done)
     })
 
-    it('will get 400 密码至少6位数 with oldPwd 111', function (done) {
+    it('will get 400 `at least 6 characters` with oldPwd 111', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', salesToken)
         .query({act: 'updatePassword'})
         .send({oldPwd: 111})
         .expect(400)
-        .expect(/密码至少6位数/, done)
+        .expect(/at least 6 characters/, done)
     })
 
-    it('will get 400 密码至少6位数 without newPwd', function (done) {
+    it('will get 400 `at least 6 characters` without newPwd', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', salesToken)
         .query({act: 'updatePassword'})
         .send({})
         .expect(400)
-        .expect(/密码至少6位数/, done)
+        .expect(/at least 6 characters/, done)
     })
 
-    it('will get 400 密码至少6位数 with newPwd 111', function (done) {
+    it('will get 400 `at least 6 characters` with newPwd 111', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', salesToken)
         .query({act: 'updatePassword'})
         .send({newPwd: 111})
         .expect(400)
-        .expect(/密码至少6位数/, done)
+        .expect(/at least 6 characters/, done)
     })
 
-    it('will get 404 用户不存在 with fake notexist token', function (done) {
+    it('will get 404 `not exist` with fake notexist token', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', notexistToken)
         .query({act: 'updatePassword'})
         .send({oldPwd: '111111', newPwd: '222222'})
         .expect(404)
-        .expect(/用户不存在/, done)
+        .expect(/not exist/, done)
     })
 
-    it('will get 400 旧密码错误 with wrong oldPwd', function (done) {
+    it('will get 400 `invalid password` with wrong oldPwd', function (done) {
       this.req
         .put('/api/user')
         .set('Authorization', salesToken)
         .query({act: 'updatePassword'})
         .send({oldPwd: '111111', newPwd: '222222'})
         .expect(400)
-        .expect(/旧密码错误/, done)
+        .expect(/invalid password/, done)
     })
 
     it('will get 200', function (done) {
@@ -213,11 +212,19 @@ describe('test user api', function () {
         .expect(403, done)
     })
 
-    it('will get 200', function (done) {
+    it('will get 400 `invalid status`', function (done) {
       this.req
         .put(url)
         .set('Authorization', adminToken)
         .send({id: salesUser._id.toString()})
+        .expect(400, done)
+    })
+
+    it('will get 200', function (done) {
+      this.req
+        .put(url)
+        .set('Authorization', adminToken)
+        .send({id: salesUser._id.toString(), status: 1})
         .expect(200, done)
     })
   })
@@ -294,14 +301,32 @@ describe('test user api', function () {
         .expect(/existed/, done)
     })
 
-    it('will get 200 for create sales named cc', function (done) {
+    it('will get 400 `should be at least 3 characters` for create sales named cc', function (done) {
       this.req
         .post('/api/user')
         .set('Authorization', adminToken)
         .send({username: 'cc', password: '123456', role: 'sales'})
+        .expect(400)
+        .expect(/should be at least 3 characters/, done)
+    })
+
+    it('will get 400 `invalid role` for create sales with the invalid role', function (done) {
+      this.req
+        .post('/api/user')
+        .set('Authorization', adminToken)
+        .send({username: 'cc', password: '123456', role: 'invalidrole'})
+        .expect(400)
+        .expect(/invalid role/, done)
+    })
+
+    it('will get 200 for create sales named ccc', function (done) {
+      this.req
+        .post('/api/user')
+        .set('Authorization', adminToken)
+        .send({username: 'ccc', password: '123456', role: 'sales'})
         .expect(200)
         .end(function(e, res) {
-          res.body.username.should.be.eql('cc')
+          res.body.username.should.be.eql('ccc')
           res.body.role.should.be.eql('sales')
           done(e)
         })

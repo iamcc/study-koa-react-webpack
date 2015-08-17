@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-11 12:36:53
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 11:44:44
+* @Last Modified time: 2015-08-17 15:50:08
 */
 'use strict'
 
@@ -20,7 +20,7 @@ mongoose.connection
 module.exports = initAdmin
 
 function initAdmin(callback) {
-  callback = callback || function() {}
+  callback = callback || function () {}
 
   UserModel.findByUsername('admin')
     .then(handleResult, callback)

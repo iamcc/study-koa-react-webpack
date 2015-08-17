@@ -9,7 +9,7 @@
     "test": "npm run test-server",
     "test-cov": "npm run cov-server",
     "test-server": "NODE_ENV=test mocha -r should -R spec --recursive test/server",
-    "cov-server": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -r should -R spec --recursive test/server",
+    "cov-server": "NODE_ENV=test istanbul cover _mocha -- -r should -R spec --recursive test/server && open coverage/lcov-report/index.html",
     "build": "NODE_ENV=prod webpack -p",
     "lint": "eslint client server test"
   },
@@ -33,6 +33,7 @@
     "koa-router": "^5.1.2",
     "koa-static": "^1.4.9",
     "mongoose": "^4.1.2",
+    "mongoose-validator": "^1.2.3",
     "react": "^0.13.3",
     "react-mixin": "^1.7.0",
     "react-router": "^0.13.3",

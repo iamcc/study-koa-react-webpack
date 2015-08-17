@@ -2,7 +2,7 @@
 * @Author: CC
 * @Date:   2015-08-13 11:56:28
 * @Last Modified by:   CC
-* @Last Modified time: 2015-08-14 18:46:13
+* @Last Modified time: 2015-08-17 17:04:08
 */
 
 const UserModel = require('../models/user')
@@ -36,6 +36,7 @@ function *handleDelete(next) {
 
   this.assert(this.state.user.role === 'admin', 403)
   this.assert(id, 404)
+
   const user = yield UserModel.findById(id)
   this.assert(user, 404)
   this.assert(user.username !== 'admin', 403)
@@ -78,6 +79,7 @@ function *resetPassword(next) {
   const id = this.request.body.id
   this.assert(this.state.user.role === 'admin', 403)
   this.assert(id, 404)
+
   const user = yield UserModel.findById(id).exec()
   this.assert(user, 404)
   this.assert(user.username !== 'admin', 403)
@@ -89,12 +91,5 @@ function *resetPassword(next) {
 function *handleCreate(next) {
   const body = this.request.body
   this.assert(this.state.user.role === 'admin', 403)
-  this.assert(body.password, {password: 'empty'}, 400)
-  this.assert(body.password.length > 5, {password: 'at least 6 characters'}, 400)
-  this.assert(body.username, {username: 'empty'}, 400)
-  this.assert(~UserModel.ROLES.indexOf(body.role), {role: 'invalid role'}, 400)
-
-  const user = yield UserModel.findByUsername(body.username)
-  this.assert(!user, {username: 'existed'}, 400)
   this.body = yield UserModel.create(body)
 }
